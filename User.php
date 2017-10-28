@@ -2,7 +2,13 @@
 session_start();
 define('ROOT',dirname(__FILE__));
 require_once (ROOT.'\DB.php');
-
+if(!empty($_COOKIE['log'])){
+    $host  = $_SERVER['HTTP_HOST'];
+    $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+    $extra = 'Account.php';
+    header("Location: http://$host$uri/$extra");
+    exit();
+}
 class User{
     protected static function checkEmail($email){
         $db = DB::getConnection();
