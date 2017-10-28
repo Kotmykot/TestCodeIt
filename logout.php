@@ -15,7 +15,7 @@
        <li>Your email: <?php echo $value['email'] ?></li>
        <li>Your name: <?php echo $value['user_name'] ?></li>
        <?php } ?>
-       <li><a href="exit.php">logout</a></li>
+       <li><a href="exit.php">sign out</a></li>
 
        <!--  full path to the file   <li><a href="--><?php //echo ROOT.'\exit.php'; ?><!--">logout</a></li>-->
 

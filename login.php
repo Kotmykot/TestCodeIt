@@ -49,7 +49,7 @@
     <!--  full path to the file  <a href="--><?php //echo ROOT.'\User.php'; ?><!--">registration</a>-->
 
     <div class="form-group">
-        <input type="submit" id="button" value="send">
+        <input type="submit" id="button" value="sign in">
     </div>
 </form>
 
