@@ -38,7 +38,7 @@ class Auth{
 
         if (!empty($user[0]['id'])){
             setcookie ("log",$log,time()+3600,"/");
-            setcookie ("pass",md5($password),time()+3600,"/");
+
             $host  = $_SERVER['HTTP_HOST'];
             $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
             $extra = 'Account.php';

@@ -163,7 +163,7 @@ class User{
                     $_POST['birth'],
                     $_POST['country']);
                     setcookie ("log",$_POST['login'],time()+3600,"/");
-                    setcookie ("pass",md5($_POST['pass']),time()+3600,"/");
+
                     $host  = $_SERVER['HTTP_HOST'];
                     $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
                     $extra = 'Account.php';
