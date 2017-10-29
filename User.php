@@ -107,12 +107,21 @@ class User{
     protected static function vBirth($birth){
         unset($_SESSION['birth_error']);
         unset($_SESSION['birth']);
-        if(!preg_match("/^(19|20)[0-9]{2}-[0|1][0-9]-[0-3][0-9]/",$birth) or empty($birth)) {
-            $_SESSION['birth_error'] = "Only numbers and '-' or enter your name";
+        $timestamp = strtotime($birth);
+        if($timestamp < time()) {
+            if (!preg_match("/^(19|20)[0-9]{2}-[0|1][0-9]-[0-3][0-9]/", $birth) or empty($birth)) {
+                $_SESSION['birth_error'] = "Only numbers or too old date or enter your name";
+                $_SESSION['birth'] = $birth;
+            } else {
+                $_SESSION['birth'] = $birth;
+                return true;
+            }
         }else{
+            $_SESSION['birth_error'] = "This date has not yet come";
             $_SESSION['birth'] = $birth;
-            return true;
         }
+
+
     }
 
     protected static function vCountry($country){
