@@ -4,4 +4,4 @@
 - DB.php - файл подключения базы данных. 
 - exit.php - файл вывода где удаляются сессии и куки. 
 - test.sql - фаил с базой данных в таблице countries 5 старан, таблица users пустая. 
-- Пример работы на сервере: <http://nork2014.000webhostapp.com/test/Auth.php>
+- Пример работы на сервере: <http://kotmykot.000webhostapp.com/test-100500/Auth.php>
