@@ -1,7 +1,7 @@
 <?php
 session_start();
 define('ROOT',dirname(__FILE__));
-require_once (ROOT.'\DB.php');
+require_once (ROOT.'/DB.php');
 
 class Account{
 
@@ -36,9 +36,11 @@ class Account{
 }
 
 
+if(!empty($_COOKIE['log'])){
+    $user = Account::getUser($_COOKIE['log']);
+}
 
-$user = Account::getUser($_COOKIE['log']);
 
 
-include_once(ROOT.'\logout.php');
+include_once(ROOT.'/logout.php');
 ?>

@@ -1,7 +1,10 @@
 <?php
-session_start();
-session_destroy();
-setcookie ("log",$_COOKIE['log'],time()-3600,"/");
+if(!empty($_COOKIE['log'])){
+    session_start();
+    session_destroy();
+    setcookie ("log",$_COOKIE['log'],time()-3600,"/");
+}
+
 
 $host  = $_SERVER['HTTP_HOST'];
 $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');

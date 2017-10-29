@@ -1,7 +1,7 @@
 <?php
 session_start();
 define('ROOT',dirname(__FILE__));
-require_once (ROOT.'\DB.php');
+require_once (ROOT.'/DB.php');
 if(!empty($_COOKIE['log'])){
     $host  = $_SERVER['HTTP_HOST'];
     $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -54,5 +54,5 @@ if (!empty($_POST)) {
     Auth::getLogin($_POST['log'], $_POST['pass']);
 }
 
-include_once(ROOT.'\login.php');
+include_once(ROOT.'/login.php');
 ?>

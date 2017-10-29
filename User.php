@@ -1,7 +1,7 @@
 <?php
 session_start();
 define('ROOT',dirname(__FILE__));
-require_once (ROOT.'\DB.php');
+require_once (ROOT.'/DB.php');
 if(!empty($_COOKIE['log'])){
     $host  = $_SERVER['HTTP_HOST'];
     $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -132,8 +132,6 @@ class User{
         if($checkbox == "true"){
             $_SESSION['checkbox'] = $checkbox;
             return true;
-        }else{
-            $_SESSION['checkbox_error'] = "Checked a checkbox";
         }
     }
 
@@ -147,8 +145,9 @@ class User{
              self::vPassword($post['pass'],$post['repeated_pass']);
              self::vBirth($post['birth']);
              self::vCountry($post['country']);
-             self::vCheckbox($post['check']);
-            if (self::vName($post['name'])
+
+            if (!empty($post['check'])
+                and self::vName($post['name'])
                 and self::vPassword($post['pass'],$post['repeated_pass'])
                 and self::vBirth($post['birth'])
                 and self::vCountry($post['country'])
@@ -169,6 +168,8 @@ class User{
                     $extra = 'Account.php';
                     header("Location: http://$host$uri/$extra");
                     exit();
+            }else{
+                $_SESSION['checkbox_error'] = "Checked a checkbox";
             }
 
         }
@@ -208,5 +209,5 @@ class User{
 
 User::validationRegistration($_POST);
 
-include_once(ROOT.'\registration.php');
+include_once(ROOT.'/registration.php');
 ?>
