@@ -2,7 +2,8 @@
 if(!empty($_COOKIE['log'])){
     session_start();
     session_destroy();
-    setcookie ("log",$_COOKIE['log'],time()-3600,"/");
+    setcookie ("id",$user['id'],time()-3600,"/");
+    setcookie("hash", $hash, time()-3600,null,null,null,true); // httponly !!!
 }
 
 

@@ -127,12 +127,19 @@ class User{
     protected static function vCountry($country){
         unset($_SESSION['country_error']);
         unset($_SESSION['country']);
-        if(!preg_match("/^[a-zA-Z ]*$/",$country) or empty($country)) {
-            $_SESSION['country_error'] = "Select a country";
-        }else{
+
+        if(is_numeric($country) and !empty($country)) {
             $_SESSION['country'] = $country;
             return true;
+        }else{
+            $_SESSION['country_error'] = "Select a country";
         }
+//        if(!preg_match("/^[a-zA-Z ]*$/",$country) or empty($country)) {
+//            $_SESSION['country_error'] = "Select a country";
+//        }else{
+//            $_SESSION['country'] = $country;
+//            return true;
+//        }
     }
 
     protected static function vCheckbox($checkbox){
@@ -143,7 +150,16 @@ class User{
             return true;
         }
     }
-
+// Функция для генерации случайной строки
+    private static function generateCode($length=6) {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHI JKLMNOPRQSTUVWXYZ0123456789";
+        $code = "";
+        $clen = strlen($chars) - 1;
+        while (strlen($code) < $length) {
+            $code .= $chars[mt_rand(0,$clen)];
+        }
+        return $code;
+    }
     public static function validationRegistration($post)
     {
 
@@ -164,13 +180,20 @@ class User{
                 and self::vEmail($post['email'])
                 and self::vLogin($post['login']))
             {
-                self::addUser($_POST['email'],
-                    $_POST['login'],
-                    $_POST['name'],
-                    $_POST['pass'],
-                    $_POST['birth'],
-                    $_POST['country']);
-                    setcookie ("log",$_POST['login'],time()+3600,"/");
+
+                    $hash = md5(self::generateCode(10));
+                    $ip = "INET_ATON(".$_SERVER['REMOTE_ADDR'].")";
+
+                    self::addUser($_POST['email'], $_POST['login'], $_POST['name'], $_POST['pass'], $_POST['birth'], $_POST['country'], $hash, $ip);
+
+
+                    $id = self::getId();
+
+
+
+                    setcookie ("id",$id[0]['id'],time()+3600);
+                    setcookie("hash", $hash, time()+3600,null,null,null,true); // httponly !!!
+
 
                     $host  = $_SERVER['HTTP_HOST'];
                     $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -183,7 +206,7 @@ class User{
 
         }
     }
-    protected static function addUser($email,$login,$name,$pass,$birth,$country)
+    protected static function addUser($email,$login,$name,$pass,$birth,$country,$hash,$ip)
     {
         $db = DB::getConnection();
         $db->query("SET NAMES utf8");
@@ -193,6 +216,8 @@ class User{
                                           pass='" . md5($pass) . "',
                                           birth='" . $birth . "',
                                           country='" . $country . "',
+                                          hash='" . $hash . "',
+                                          ip='" . $ip . "',
                                           unix_timestamp='" . time() . "'
         ");
 
@@ -213,7 +238,20 @@ class User{
         return $itemsAdmin;
 
     }
+    public static function getId()
+    {
+        $db = DB::getConnection();
+        $db->query("SET NAMES utf8");
+        $itemsAdmin = array();
+        $result = $db->query("SELECT * FROM users ORDER BY id DESC LIMIT 1;");
+        $i = 0;
+        while ($row = $result->fetch()) {
+            $itemsAdmin[$i]['id'] = $row['id'];
+            $i++;
+        }
+        return $itemsAdmin;
 
+    }
 }
 
 User::validationRegistration($_POST);

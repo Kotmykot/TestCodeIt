@@ -79,7 +79,7 @@
             <?php if(!empty($_SESSION['country'])){ echo   "<option value=\"".$_SESSION['country']."\">".$_SESSION['country']."</option>"; }?>
             <option value="" disabled >Select a country</option>
             <?php foreach(User::getCountries() as $value){ ?>
-            <option value="<?php echo $value['country']; ?>"><?php echo $value['country']; ?></option>
+            <option value="<?php echo $value['id']; ?>"><?php echo $value['country']; ?></option>
             <?php } ?>
         </select>
         <?php if (!empty($_SESSION['country_error'])){?>
